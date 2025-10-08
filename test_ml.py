@@ -3,6 +3,7 @@ import pytest
 import pickle
 from sklearn.ensemble import RandomForestClassifier
 from ml.model import save_model, load_model, train_model
+from train_model import data
 
 # TODO: implement the first test. Change the function name and input as needed
 def test_save_model(tmp_path):
@@ -63,6 +64,36 @@ def test_train_model():
     #proper model was used
     assert hasattr(model, "predict"), "Returned object lacks predict method"
 
+
+
+
+def test_inference():
+    """
+    #tests for inference model
+    """
+    #test training data
+    X_train = [[0], [1], [2], [3]]
+    y_train = [0, 1, 2, 3]
+
+    #training
+    model = train_model(X_train, y_train)
+
+    #was model returned
+    assert model is not None, "train_model() returned None"
+
     #checking predictions
     preds = model.predict([[4]])
     assert preds[0] == 3, "Classifier did not correctly predict from input"
+
+
+
+def test_validate_data():
+    """
+    #checking for unusual data values
+    """
+    #defining age rane
+    min_age = 0
+    max_age = 100
+
+    #validating
+    assert data['age'].between(min_age,max_age).all(), "Data contains strange ages"
